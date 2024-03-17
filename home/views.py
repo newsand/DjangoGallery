@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from theme_pixel.forms import RegistrationForm, UserLoginForm, UserPasswordResetForm, UserPasswordChangeForm, UserSetPasswordForm
 from django.contrib.auth import logout
@@ -135,18 +135,21 @@ def x(request):
 def gallerys(request):
   return render(request, 'mypages/gallery.html')
 
-def album(request):
-  return render(request, 'mypages/album.html')
+def album(request, album_id):
+    # Busca o álbum pelo ID ou retorna um erro 404 se não encontrado
+  album = get_object_or_404(Album, id=album_id)
+    # Busca todas as imagens associadas ao álbum
+  pictures = Picture.objects.filter(album=album_id)
+    # Renderiza o template com o álbum e suas imagens
+  return render(request, 'mypages/album.html', {'album': album, 'pictures': pictures})
 
 def inside(request):
   return render(request, 'mypages/inside.html')
 
-def listar_imagens(request):
-    # Busca todos os álbuns
-    albums = Album.objects.all()
-    # Para cada álbum, tenta buscar a imagem de capa
-    for album in albums:
-        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
-    
-    # Renderiza o template com os álbuns e as imagens de capa
-    return render(request, 'mypages/main.html', {'albums': albums})
+def listar_imagens(request, album_id):
+    # Busca o álbum pelo ID ou retorna um erro 404 se não encontrado
+    album = get_object_or_404(Album, id=album_id)
+    # Busca todas as imagens associadas ao álbum
+    pictures = Picture.objects.filter(album=album_id)
+    # Renderiza o template com o álbum e suas imagens
+    return render(request, 'mypages/main.html', {'album': album, 'pictures': pictures})
