@@ -29,8 +29,9 @@ if not SECRET_KEY:
     SECRET_KEY = ''.join(random.choice( string.ascii_lowercase  ) for i in range( 32 ))
 
 # Enable/Disable DEBUG Mode
-DEBUG = str2bool(os.environ.get('DEBUG'))
-#print(' DEBUG -> ' + str(DEBUG) ) 
+#DEBUG = str2bool(os.environ.get('DEBUG'))
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1', 't', 'y', 'yes']
+print(' DEBUG -> ' + str(DEBUG) ) 
 
 # Docker HOST
 ALLOWED_HOSTS = ['*']
@@ -166,3 +167,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
