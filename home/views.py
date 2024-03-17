@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from theme_pixel.forms import RegistrationForm, UserLoginForm, UserPasswordResetForm, UserPasswordChangeForm, UserSetPasswordForm
 from django.contrib.auth import logout
+from .models import Album, Picture
 
 
 # Create your views here.
@@ -22,19 +23,6 @@ def landing_freelancer(request):
 
 def blank_page(request):
   return render(request, 'pages/blank.html')
-
-
-def x(request):
-  return render(request, 'mypages/main.html')
-
-def gallerys(request):
-  return render(request, 'mypages/gallery.html')
-
-def album(request):
-  return render(request, 'mypages/album.html')
-
-def inside(request):
-  return render(request, 'mypages/inside.html')
 
 # Authentication
 class UserLoginView(LoginView):
@@ -130,3 +118,35 @@ def tooltips(request):
 
 def typography(request):
   return render(request, 'components/typography.html')
+
+
+
+
+def x(request):
+  # Busca todos os álbuns
+    albums = Album.objects.all()
+    # Para cada álbum, tenta buscar a imagem de capa
+    for album in albums:
+        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+    
+    # Renderiza o template com os álbuns e as imagens de capa
+    return render(request, 'mypages/main.html', {'albums': albums})
+
+def gallerys(request):
+  return render(request, 'mypages/gallery.html')
+
+def album(request):
+  return render(request, 'mypages/album.html')
+
+def inside(request):
+  return render(request, 'mypages/inside.html')
+
+def listar_imagens(request):
+    # Busca todos os álbuns
+    albums = Album.objects.all()
+    # Para cada álbum, tenta buscar a imagem de capa
+    for album in albums:
+        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+    
+    # Renderiza o template com os álbuns e as imagens de capa
+    return render(request, 'mypages/main.html', {'albums': albums})
