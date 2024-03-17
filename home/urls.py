@@ -56,7 +56,7 @@ urlpatterns = [
     #meus
     path('x/', views.x, name='x'),
     path('gallerys/', views.gallerys, name='gallerys'),
-    path('album/', views.album, name='album'),
+    path('album/<int:album_id>', views.album, name='album'),
     path('inside/', views.inside, name='inside'),
     path('imagens/', views.listar_imagens, name='listar_imagens'),
 ]
