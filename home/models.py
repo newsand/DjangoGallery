@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.postgres.fields import ArrayField
 from core import settings
 
 
@@ -30,3 +30,11 @@ class Picture(models.Model):
     @classmethod
     def get_media_path(cls):
         return settings.MEDIA_ROOT
+
+class Sitevars(models.Model):
+    name = models.CharField(max_length=100)
+    page = ArrayField(models.CharField(max_length=100))
+    value = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
