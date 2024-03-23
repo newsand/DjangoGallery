@@ -7,6 +7,7 @@ class Album(models.Model):
     title = models.CharField(max_length=100)
     location = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)  # Usando TextField para descrições mais longas
+    private = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -23,7 +24,7 @@ class Picture(models.Model):
         null = True,
     )
     cover = models.BooleanField(default=False,null=False,blank=False)
-   
+    
 
     def __str__(self):
         return f"{self.title} {self.album.id if self.album else ''} {'Capa' if self.cover else 'Não é capa'}"
