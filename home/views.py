@@ -127,7 +127,8 @@ def x(request):
     vars=Sitevars.objects.filter(page__contains=['index'])
     dc =dict()
     for v in vars:
-      dc[v.name]={"content":v.content}
+      dc[v.name]={"content":v.content,
+                  "value":v.value}
     albums = Album.objects.all()
     # Para cada álbum, tenta buscar a imagem de capa
     for album in albums:
