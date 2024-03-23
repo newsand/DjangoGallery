@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from theme_pixel.forms import RegistrationForm, UserLoginForm, UserPasswordResetForm, UserPasswordChangeForm, UserSetPasswordForm
 from django.contrib.auth import logout
-from .models import Album, Picture
+from .models import Album, Picture, Sitevars
 
 
 # Create your views here.
@@ -124,13 +124,19 @@ def typography(request):
 
 def x(request):
   # Busca todos os álbuns
+    vars=Sitevars.objects.filter(page__contains=['index'])
+    dc =dict()
+    for v in vars:
+      dc[v.name]={"content":v.content}
     albums = Album.objects.all()
     # Para cada álbum, tenta buscar a imagem de capa
     for album in albums:
         album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+        if len(album.description)>= 120:
+          album.description = album.description[:120]+"..."
     
     # Renderiza o template com os álbuns e as imagens de capa
-    return render(request, 'mypages/main.html', {'albums': albums})
+    return render(request, 'mypages/main.html', {'albums': albums,'parameters':dc})
 
 def gallerys(request):
   return render(request, 'mypages/gallery.html')

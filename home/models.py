@@ -35,6 +35,12 @@ class Sitevars(models.Model):
     name = models.CharField(max_length=100)
     page = ArrayField(models.CharField(max_length=100))
     value = models.CharField(max_length=100)
+    content = models.TextField(blank=True,null=True)
 
     def __str__(self):
         return self.name
+    
+    def to_json(self):
+        return {name:self.name,
+                value:self.value,
+                content:self.content}

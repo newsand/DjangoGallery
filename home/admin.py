@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Picture, Album
+from .models import Picture, Album, Sitevars
 
 class PicturesAdmin(admin.ModelAdmin):
     list_display = ('title','cover','album',)
@@ -12,3 +12,9 @@ class AlbumnsAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 admin.site.register(Album, AlbumnsAdmin)
+
+class SitevarsAdmin(admin.ModelAdmin):
+    list_display = ('name','value','page')
+    search_fields = ['name']
+
+admin.site.register(Sitevars, SitevarsAdmin)
