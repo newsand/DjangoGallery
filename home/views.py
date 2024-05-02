@@ -10,16 +10,28 @@ from django.contrib.auth.decorators import login_required
 
 # Pages
 def index(request):
-  return render(request, 'pages/index.html')
+    # Busca todos os álbuns
+    vars = Sitevars.objects.filter(page__contains=['index'])
+    dc = dict()
+    for v in vars:
+        dc[v.name] = {"content": v.content,
+                      "value": v.value}
+    albums = Album.objects.filter(private=False)
+    # Para cada álbum, tenta buscar a imagem de capa
+    for album in albums:
+        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+        if len(album.description) >= 120:
+            album.description = album.description[:120] + "..."
+
+    # Renderiza o template com os álbuns e as imagens de capa
+    return render(request, 'mypages/main.html', {'albums': albums, 'parameters': dc})
 
 def abouts_us(request):
-  return render(request, 'pages/about.html')
+  return render(request, 'mypages/about.html')
 
 def contact_us(request):
   return render(request, 'pages/contact.html')
 
-def landing_freelancer(request):
-  return render(request, 'pages/landing-freelancer.html')
 
 def blank_page(request):
   return render(request, 'pages/blank.html')
@@ -120,24 +132,24 @@ def typography(request):
   return render(request, 'components/typography.html')
 
 
-
-
-def x(request):
-  # Busca todos os álbuns
-    vars=Sitevars.objects.filter(page__contains=['index'])
-    dc =dict()
-    for v in vars:
-      dc[v.name]={"content":v.content,
-                  "value":v.value}
-    albums = Album.objects.filter(private=False)
-    # Para cada álbum, tenta buscar a imagem de capa
-    for album in albums:
-        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
-        if len(album.description)>= 120:
-          album.description = album.description[:120]+"..."
-    
-    # Renderiza o template com os álbuns e as imagens de capa
-    return render(request, 'mypages/main.html', {'albums': albums,'parameters':dc})
+#
+#
+# def x(request):
+#   # Busca todos os álbuns
+#     vars=Sitevars.objects.filter(page__contains=['index'])
+#     dc =dict()
+#     for v in vars:
+#       dc[v.name]={"content":v.content,
+#                   "value":v.value}
+#     albums = Album.objects.filter(private=False)
+#     # Para cada álbum, tenta buscar a imagem de capa
+#     for album in albums:
+#         album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+#         if len(album.description)>= 120:
+#           album.description = album.description[:120]+"..."
+#
+#     # Renderiza o template com os álbuns e as imagens de capa
+#     return render(request, 'mypages/main.html', {'albums': albums,'parameters':dc})
 
 def gallerys(request):
   return render(request, 'mypages/gallery.html')

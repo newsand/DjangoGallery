@@ -6,10 +6,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Pages
-    path('', views.index),
+    path('', views.index,name='index'),
     path('about-us/', views.abouts_us, name='about_us'),
     path('contact-us/', views.contact_us, name='contact_us'),
-    path('landing-freelancer/', views.landing_freelancer, name='landing_freelancer'),
     path('blank/', views.blank_page, name='blank'),
 
 
@@ -31,30 +30,8 @@ urlpatterns = [
         template_name='accounts/password_reset_complete.html'
     ), name='password_reset_complete'),
 
-
-    # Components
-    path('accordion/', views.accordion, name='accordion'),
-    path('alerts/', views.alerts, name='alerts'),
-    path('badges/', views.badges, name='badges'),
-    path('bootstrap-carousels/', views.bootstrap_carousels, name='carousels'),
-    path('breadcrumbs/', views.breadcrumbs, name='breadcrumbs'),
-    path('buttons/', views.buttons, name='buttons'),
-    path('cards/', views.cards, name='cards'),
-    path('dropdowns/', views.dropdowns, name='dropdowns'),
-    path('forms/', views.forms, name='forms'),
-    path('modals/', views.modals, name='modals'),
-    path('navs/', views.navs, name='navs'),
-    path('pagination/', views.pagination, name='pagination'),
-    path('popovers/', views.popovers, name='popovers'),
-    path('progress-bars/', views.progress_bars, name='progress_bars'),
-    path('tables/', views.tables, name='tables'),
-    path('tabs/', views.tabs, name='tabs'),
-    path('toasts/', views.toasts, name='toasts'),
-    path('tooltips/', views.tooltips, name='tooltips'),
-    path('typography/', views.typography, name='typography'),
-
     #meus
-    path('x/', views.x, name='x'),
+    # path('x/', views.x, name='x'),
     path('gallerys/', views.gallerys, name='gallerys'),
     path('album/<int:album_id>', views.album, name='album'),
     path('inside/', views.inside, name='inside'),
