@@ -1,8 +1,8 @@
-FROM python:3.9
+# Use Python 3.12 image
+FROM python:3.12-slim
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Set working directory
+WORKDIR /app
 
 COPY requirements.txt .
 # install python dependencies
