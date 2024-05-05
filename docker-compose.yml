@@ -1,27 +1,33 @@
 version: '3.8'
+
 services:
+  # Your Django application
   appseed-app:
-    container_name: appseed_app
-    restart: always
     build: .
-    networks:
-      - db_network
-      - web_network
-  nginx:
-    container_name: nginx
-    restart: always
-    image: "nginx:latest"
-    ports:
-      - "5085:5085"
+    environment:
+      - .env  # Reference environment variables from .env file
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-    networks:
-      - web_network
-    depends_on: 
-      - appseed-app
-networks:
-  db_network:
-    driver: bridge
-  web_network:
-    driver: bridge
- 
+      - ./project:/app  # Mount your project directory to /app
+
+  # Postgres database
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: newsand
+      POSTGRES_DB: berry
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist data volume
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:8000"  # Expose port 80 on host, forward to port 8000 (default for Django) in appseed-app container
+    volumes:
+      - ./nginx:/etc/nginx/conf.d  # Mount your Nginx configuration
+    depends_on:
+      - appseed-app  # Wait for appseed-app to be ready
+
+volumes:
+  postgres_data: {}
