@@ -10,16 +10,28 @@ from django.contrib.auth.decorators import login_required
 
 # Pages
 def index(request):
-  return render(request, 'pages/index.html')
+    # Busca todos os álbuns
+    vars = Sitevars.objects.filter(page__contains=['index'])
+    dc = dict()
+    for v in vars:
+        dc[v.name] = {"content": v.content,
+                      "value": v.value}
+    albums = Album.objects.filter(private=False)
+    # Para cada álbum, tenta buscar a imagem de capa
+    for album in albums:
+        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+        if len(album.description) >= 120:
+            album.description = album.description[:120] + "..."
+
+    # Renderiza o template com os álbuns e as imagens de capa
+    return render(request, 'mypages/main.html', {'albums': albums, 'parameters': dc})
 
 def abouts_us(request):
-  return render(request, 'pages/about.html')
+  return render(request, 'mypages/about.html')
 
 def contact_us(request):
   return render(request, 'pages/contact.html')
 
-def landing_freelancer(request):
-  return render(request, 'pages/landing-freelancer.html')
 
 def blank_page(request):
   return render(request, 'pages/blank.html')
@@ -61,83 +73,22 @@ class UserPasswordChangeView(PasswordChangeView):
   form_class = UserPasswordChangeForm
 
 
-# Components
-def accordion(request):
-  return render(request, 'components/accordions.html')
-
-def alerts(request):
-  return render(request, 'components/alerts.html')
-
-def badges(request):
-  return render(request, 'components/badges.html')
-
-def bootstrap_carousels(request):
-  return render(request, 'components/bootstrap-carousels.html')
-
-def breadcrumbs(request):
-  return render(request, 'components/breadcrumbs.html')
-
-def buttons(request):
-  return render(request, 'components/buttons.html')
-
-def cards(request):
-  return render(request, 'components/cards.html')
-
-def dropdowns(request):
-  return render(request, 'components/dropdowns.html')
-
-def forms(request):
-  return render(request, 'components/forms.html')
-
-def modals(request):
-  return render(request, 'components/modals.html')
-
-def navs(request):
-  return render(request, 'components/navs.html')
-
-def pagination(request):
-  return render(request, 'components/pagination.html')
-
-def popovers(request):
-  return render(request, 'components/popovers.html')
-
-def progress_bars(request):
-  return render(request, 'components/progress-bars.html')
-
-def tables(request):
-  return render(request, 'components/tables.html')
-
-def tabs(request):
-  return render(request, 'components/tabs.html')
-
-def toasts(request):
-  return render(request, 'components/toasts.html')
-
-def tooltips(request):
-  return render(request, 'components/tooltips.html')
-
-def typography(request):
-  return render(request, 'components/typography.html')
-
-
-
-
-def x(request):
-  # Busca todos os álbuns
-    vars=Sitevars.objects.filter(page__contains=['index'])
-    dc =dict()
-    for v in vars:
-      dc[v.name]={"content":v.content,
-                  "value":v.value}
-    albums = Album.objects.filter(private=False)
-    # Para cada álbum, tenta buscar a imagem de capa
-    for album in albums:
-        album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
-        if len(album.description)>= 120:
-          album.description = album.description[:120]+"..."
-    
-    # Renderiza o template com os álbuns e as imagens de capa
-    return render(request, 'mypages/main.html', {'albums': albums,'parameters':dc})
+# def x(request):
+#   # Busca todos os álbuns
+#     vars=Sitevars.objects.filter(page__contains=['index'])
+#     dc =dict()
+#     for v in vars:
+#       dc[v.name]={"content":v.content,
+#                   "value":v.value}
+#     albums = Album.objects.filter(private=False)
+#     # Para cada álbum, tenta buscar a imagem de capa
+#     for album in albums:
+#         album.cover_picture = Picture.objects.filter(album=album, cover=True).first()
+#         if len(album.description)>= 120:
+#           album.description = album.description[:120]+"..."
+#
+#     # Renderiza o template com os álbuns e as imagens de capa
+#     return render(request, 'mypages/main.html', {'albums': albums,'parameters':dc})
 
 def gallerys(request):
   return render(request, 'mypages/gallery.html')
