@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <main>
+
+        {% include 'includes/pre-loader.html' %}
+
+        <!-- Hero -->
+        <section class="section-header bg-secondary text-white">
+            <div class="container">
+               <div class="row justify-content-between align-items-center">
+                  <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+                        <h1 class="display-2 mb-4">Escapadas  <br class="d-none d-md-inline">Eroticas</h1>
+                        <p class="lead mb-4 text-muted">Explorando Prazeres Proibidos</p>
+                    </div>
+                  <div class="col-12 col-md-5 d-none d-md-block text-center"><img src="{% static 'assets/img/illustrations/about-illustration.svg' %}" alt=""></div>
+               </div>
+            </div>
+        </section>
+        <!-- End of Hero section -->
+<div class="container">
+    <h1>Blog</h1>
+    
+    {% for post in posts %}
+    <article class="mb-4">
+        {% if post.thumbnail %}
+            <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" class="img-fluid">
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+        <p class="text-muted">{{ post.created_at|date:"d/m/Y" }}</p>
+        <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary">Ler mais</a>
+    </article>
+    {% empty %}
+    <p>Nenhum post encontrado.</p>
+    {% endfor %}
+</div>
+{% endblock %}
