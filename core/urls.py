@@ -10,13 +10,15 @@ from django.conf.urls.static import static
 urlpatterns = [
     # Inclui as URLs da aplicação 'home'
     path('', include('home.urls')),
-    
+    # Inclui as URLs da aplicação 'blog'
+    path('blog/', include('blog.urls', namespace='blog')),
     # URL do admin do Django
     path("admin/", admin.site.urls),
     
     # Inclui as URLs da aplicação 'theme_pixel'
     path("", include('theme_pixel.urls')),
     # ... suas outras urls
+    path('ckeditor/', include('ckeditor_uploader.urls')),  # Adicione esta linha
 ]
 
 # Configuração para servir arquivos de mídia durante o desenvolvimento

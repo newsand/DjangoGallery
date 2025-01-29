@@ -13,10 +13,10 @@ def index(request):
   return render(request, 'pages/index.html')
 
 def abouts_us(request):
-  return render(request, 'pages/about.html')
+  return render(request, 'mypages/story.html')
 
 def contact_us(request):
-  return render(request, 'pages/contact.html')
+  return render(request, 'mypages/blog.html')
 
 def landing_freelancer(request):
   return render(request, 'pages/landing-freelancer.html')

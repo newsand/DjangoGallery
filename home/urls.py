@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Pages
-    path('', views.index),
+    path('', views.x),
     path('about-us/', views.abouts_us, name='about_us'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('landing-freelancer/', views.landing_freelancer, name='landing_freelancer'),
@@ -52,6 +52,7 @@ urlpatterns = [
     path('toasts/', views.toasts, name='toasts'),
     path('tooltips/', views.tooltips, name='tooltips'),
     path('typography/', views.typography, name='typography'),
+
 
     #meus
     path('x/', views.x, name='x'),
