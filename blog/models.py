@@ -4,6 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255,blank=True)
     content = RichTextUploadingField(
         verbose_name="Content",
         help_text="Use o editor para adicionar texto e imagens")

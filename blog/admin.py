@@ -11,6 +11,6 @@ class PostAdmin(admin.ModelAdmin):
     # Campos organizados em grupos no formulário
     fieldsets = (
         ('Conteúdo', {
-            'fields': ('title', 'content', 'thumbnail')
+            'fields': ('title','subtitle', 'content', 'thumbnail')
         }),
     )
