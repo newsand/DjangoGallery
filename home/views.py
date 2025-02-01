@@ -144,11 +144,13 @@ def gallerys(request):
 
 def album(request, album_id):
     # Busca o álbum pelo ID ou retorna um erro 404 se não encontrado
-  album = get_object_or_404(Album, id=album_id)
-    # Busca todas as imagens associadas ao álbum
-  pictures = Picture.objects.filter(album=album_id)
+    album = get_object_or_404(Album, id=album_id)
+# Busca todas as imagens associadas ao álbum
+    if album.private and not request.user.is_authenticated:
+        return redirect('login')
+    pictures = Picture.objects.filter(album=album_id)
     # Renderiza o template com o álbum e suas imagens
-  return render(request, 'mypages/album.html', {'album': album, 'pictures': pictures})
+    return render(request, 'mypages/album.html', {'album': album, 'pictures': pictures})
 
 @login_required(login_url='/accounts/login/') 
 def inside(request):
